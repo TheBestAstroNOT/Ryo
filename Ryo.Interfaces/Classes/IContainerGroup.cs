@@ -6,6 +6,11 @@
 public interface IContainerGroup
 {
     /// <summary>
+    /// Gets container group ID.
+    /// </summary>
+    string Id { get; }
+
+    /// <summary>
     /// Enables all containers in group.
     /// </summary>
     void Enable();

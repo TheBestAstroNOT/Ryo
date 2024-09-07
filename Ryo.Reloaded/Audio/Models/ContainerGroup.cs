@@ -3,8 +3,10 @@ using Ryo.Reloaded.Audio.Models.Containers;
 
 namespace Ryo.Reloaded.Audio.Models;
 
-internal class ContainerGroup(BaseContainer[] containers) : IContainerGroup
+internal class ContainerGroup(string id, BaseContainer[] containers) : IContainerGroup
 {
+    public string Id { get; } = id;
+
     public void Enable()
     {
         foreach (var container in containers)
