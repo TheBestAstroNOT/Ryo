@@ -48,9 +48,9 @@ internal class RyoApi : IRyoApi
     public bool HasCueContainer(string cueName, string acbName)
         => this.audio.TryGetCueContainer(cueName, acbName, out _);
 
-    public bool HasDataContainer(string dataName)
-        => this.audio.TryGetDataContainer(dataName, out _);
-
     public bool HasFileContainer(string filePath)
         => this.audio.TryGetFileContainer(filePath, out _);
+
+    public IContainerGroup GetContainerGroup(string groupId)
+        => this.audio.GetContainerGroup(groupId);
 }

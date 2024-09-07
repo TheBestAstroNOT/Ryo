@@ -9,14 +9,12 @@ namespace Ryo.Reloaded.Audio;
 
 internal class AudioRegistry
 {
-    private const string RYO_DATA_DIR_NAME = "DATA.ryo";
     private const string RYO_FILE_DIR_NAME = "FILE.ryo";
 
     private readonly AudioConfig defaultConfig;
     private readonly AudioPreprocessor preprocessor;
-    private readonly Dictionary<CueKey, BaseContainer> cueContainers = new(CueComparer.Instance);
-    private readonly Dictionary<string, BaseContainer> dataContainers = new(StringComparer.OrdinalIgnoreCase);
-    private readonly Dictionary<string, BaseContainer> fileContainers = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<CueKey, List<BaseContainer>> cueContainers = new(CueComparer.Instance);
+    private readonly Dictionary<string, List<BaseContainer>> fileContainers = new(StringComparer.OrdinalIgnoreCase);
 
     public AudioRegistry(string game, AudioPreprocessor preprocessor)
     {
@@ -70,11 +68,6 @@ internal class AudioRegistry
             var fileDirIndex = parentDir.IndexOf(RYO_FILE_DIR_NAME, StringComparison.OrdinalIgnoreCase);
             config.AudioFilePath = parentDir[(fileDirIndex + RYO_FILE_DIR_NAME.Length + 1)..].Replace('\\', '/');
         }
-        else if (file.Contains(RYO_DATA_DIR_NAME, StringComparison.OrdinalIgnoreCase))
-        {
-            var dataDirIndex = parentDir.IndexOf(RYO_DATA_DIR_NAME, StringComparison.OrdinalIgnoreCase);
-            config.AudioDataName = parentDir[(dataDirIndex + RYO_DATA_DIR_NAME.Length + 1)..].Replace('\\', '/');
-        }
 
         BaseContainer? container;
         var audio = new RyoAudio(file, config);
@@ -114,55 +107,50 @@ internal class AudioRegistry
         switch (type)
         {
             case ContainerType.Cue:
-                container = new CueContainer(config.CueName!, config.AcbName!, config);
                 var cueKey = new CueKey(config.CueName!, config.AcbName!);
-
-                // Use pre-existing cue container if shared ID is set and exists.
-                if (config.SharedContainerId != null)
-                {
-                    if (this.cueContainers.TryGetValue(cueKey, out var existingCue)
-                        && existingCue.SharedContainerId?.Equals(config.SharedContainerId, StringComparison.OrdinalIgnoreCase) == true)
-                    {
-                        container = existingCue;
-                    }
-                }
-
-                this.cueContainers[cueKey] = container;
+                container = RegisterOrGetSharedContainer(this.cueContainers, cueKey, new CueContainer(config.CueName!, config.AcbName!, config));
                 break;
             case ContainerType.File:
-                container = new FileContainer(config.AudioFilePath!, config);
-
-                // Use pre-existing cue container if shared ID is set and exists.
-                if (config.SharedContainerId != null)
-                {
-                    if (this.fileContainers.TryGetValue(config.AudioFilePath!, out var existingFile)
-                        && existingFile.SharedContainerId?.Equals(config.SharedContainerId, StringComparison.OrdinalIgnoreCase) == true)
-                    {
-                        container = existingFile;
-                    }
-                }
-
-                this.fileContainers[config.AudioFilePath!] = container;
-                break;
-            case ContainerType.Data:
-                container = new DataContainer(config.AudioDataName!, config);
-
-                // Use pre-existing cue container if shared ID is set and exists.
-                if (config.SharedContainerId != null)
-                {
-                    if (this.dataContainers.TryGetValue(config.AudioFilePath!, out var existingData)
-                        && existingData.SharedContainerId?.Equals(config.SharedContainerId, StringComparison.OrdinalIgnoreCase) == true)
-                    {
-                        container = existingData;
-                    }
-                }
-
-                this.dataContainers[config.AudioDataName!] = container;
+                container = RegisterOrGetSharedContainer(this.fileContainers, config.AudioFilePath!, new FileContainer(config.AudioFilePath!, config));
                 break;
             default: throw new Exception("Unknown container.");
         }
 
         return container;
+    }
+
+    private static BaseContainer RegisterOrGetSharedContainer<TKey>(Dictionary<TKey, List<BaseContainer>> containers, TKey key, BaseContainer container)
+        where TKey : notnull
+    {
+        // Add new container list with single item.
+        if (containers.ContainsKey(key) == false)
+        {
+            containers[key] = [container];
+            return container;
+        }
+
+        // Use existing shared container.
+        if (container.SharedContainerId != null)
+        {
+            var sharedContainer = containers[key].FirstOrDefault(x => x.SharedContainerId == container.SharedContainerId);
+            if (sharedContainer != null)
+            {
+                return sharedContainer;
+            }
+        }
+
+        // Add container to container list.
+        containers[key].Add(container);
+        return container;
+    }
+
+    public ContainerGroup GetContainerGroup(string groupId)
+    {
+        var containers = this.cueContainers.Values.SelectMany(x => x)
+            .Concat(this.fileContainers.Values.SelectMany(x => x))
+            .Where(x => x.GroupId != null && x.GroupId == groupId)
+            .ToArray();
+        return new(containers);
     }
 
     public void AddAudioFile(string file)
@@ -223,17 +211,32 @@ internal class AudioRegistry
     }
 
     public bool TryGetCueContainer(string cueName, string acbName, [NotNullWhen(true)] out BaseContainer? container)
-        => this.cueContainers.TryGetValue(new(cueName, acbName), out container);
+    {
+        if (this.cueContainers.TryGetValue(new(cueName, acbName), out var containerList))
+        {
+            container = containerList.LastOrDefault(x => x.IsEnabled);
+            return container != null;
+        }
 
-    public bool TryGetDataContainer(string dataName, [NotNullWhen(true)] out BaseContainer? container)
-        => this.dataContainers.TryGetValue(dataName, out container);
+        container = null;
+        return false;
+    }
 
     public bool TryGetFileContainer(string filePath, [NotNullWhen(true)] out BaseContainer? container)
-        => this.fileContainers.TryGetValue(filePath, out container);
+    {
+        if (this.fileContainers.TryGetValue(filePath, out var containerList))
+        {
+            container = containerList.LastOrDefault(x => x.IsEnabled);
+            return container != null;
+        }
+
+        container = null;
+        return false;
+    }
 
     public void PreloadAudio()
     {
-        var allFiles = this.cueContainers.Values.Select(x => x.GetContainerFiles()).SelectMany(x => x).ToArray();
+        var allFiles = this.cueContainers.Values.Select(x => x.SelectMany(x => x.GetContainerFiles())).SelectMany(x => x).ToArray();
         foreach (var file in allFiles)
         {
             AudioCache.GetAudioData(file);

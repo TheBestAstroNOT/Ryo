@@ -40,17 +40,18 @@ public interface IRyoApi
     bool HasCueContainer(string cueName, string acbName);
 
     /// <summary>
-    /// Checks whether a data container with the given name exists.
-    /// </summary>
-    /// <param name="dataName"></param>
-    bool HasDataContainer(string dataName);
-
-    /// <summary>
     /// Checks whether a file container with the given file path exists.
     /// </summary>
     /// <param name="filePath">Audio file path.</param>
     /// <returns></returns>
     bool HasFileContainer(string filePath);
+
+    /// <summary>
+    /// Gets a group of containers.
+    /// </summary>
+    /// <param name="groupId">Group ID to get containers of.</param>
+    /// <returns>Group of containers.</returns>
+    IContainerGroup GetContainerGroup(string groupId);
 
     /// <summary>
     /// Utility functions.

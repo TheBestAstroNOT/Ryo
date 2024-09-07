@@ -9,6 +9,15 @@ namespace Ryo.Interfaces.Classes;
 public class AudioConfig
 {
     /// <summary>
+    /// Gets or sets the container group.
+    /// Settings this allows for the container to be retrieved
+    /// as part of a group of containers.
+    /// </summary>
+    public string? GroupId { get; set; }
+
+    public bool? IsEnabled { get; set; }
+
+    /// <summary>
     /// Gets or sets the shared container ID.
     /// Setting this allows for multiple audios to be added
     /// to the same cue container.
@@ -51,6 +60,8 @@ public class AudioConfig
     /// <param name="newConfig">Config containing the settings to apply.</param>
     public void Apply(AudioConfig newConfig)
     {
+        this.GroupId = newConfig.GroupId ?? this.GroupId;
+        this.IsEnabled = newConfig.IsEnabled ?? this.IsEnabled;
         this.CueName = newConfig.CueName ?? this.CueName;
         this.AcbName = newConfig.AcbName ?? this.AcbName;
         this.PlayerId = newConfig.PlayerId ?? this.PlayerId;

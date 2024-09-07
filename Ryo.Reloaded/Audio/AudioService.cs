@@ -44,7 +44,6 @@ internal unsafe class AudioService
         this.setCueName = scans.CreateHook<criAtomExPlayer_SetCueName>(this.CriAtomExPlayer_SetCueName, Mod.NAME);
         this.setCueId = scans.CreateHook<criAtomExPlayer_SetCueId>(this.CriAtomExPlayer_SetCueId, Mod.NAME);
         this.setFile = scans.CreateHook<criAtomExPlayer_SetFile>(this.CriAtomExPlayer_SetFile, Mod.NAME);
-        this.setData = scans.CreateHook<criAtomExPlayer_SetData>(this.CriAtomExPlayer_SetData, Mod.NAME);
         this.setWaveId = scans.CreateHook<criAtomExPlayer_SetWaveId>(this.CriAtomExPlayer_SetWaveId, Mod.NAME);
     }
 
@@ -146,26 +145,6 @@ internal unsafe class AudioService
         else
         {
             this.setFile.Hook!.OriginalFunction(playerHn, criBinderHn, path);
-        }
-    }
-
-    private void CriAtomExPlayer_SetData(nint playerHn, byte* buffer, int size)
-    {
-        var player = this.criAtomRegistry.GetPlayerByHn(playerHn)!;
-        var audioData = this.criAtomRegistry.GetAudioDataByAddress((nint)buffer);
-
-        if (this.devMode)
-        {
-            Log.Information($"{nameof(criAtomExPlayer_SetData)} || Player: {player.Id} || Buffer: {(nint)buffer:X}");
-        }
-
-        if (audioData != null && this.audioRegistry.TryGetDataContainer(audioData.Name, out var data))
-        {
-            this.ryo.SetAudio(player, data, data.CategoryIds);
-        }
-        else
-        {
-            this.setData.Hook!.OriginalFunction(playerHn, buffer, size);
         }
     }
 

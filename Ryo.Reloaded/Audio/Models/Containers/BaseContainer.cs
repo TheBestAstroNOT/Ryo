@@ -6,7 +6,7 @@ namespace Ryo.Reloaded.Audio.Models.Containers;
 internal abstract class BaseContainer
 {
     private readonly PlaybackMode playMode;
-    private readonly List<RyoAudio> audios = new();
+    private readonly List<RyoAudio> audios = [];
 
     private int prevIndex = -1;
 
@@ -14,10 +14,16 @@ internal abstract class BaseContainer
     {
         this.playMode = config?.PlaybackMode ?? PlaybackMode.Random;
 
+        GroupId = config?.GroupId;
+        IsEnabled = config?.IsEnabled ?? true;
         PlayerId = config?.PlayerId ?? -1;
         CategoryIds = config?.CategoryIds;
         SharedContainerId = config?.SharedContainerId;
     }
+
+    public string? GroupId { get; }
+
+    public bool IsEnabled { get; set; }
 
     public abstract string Name { get; }
 
