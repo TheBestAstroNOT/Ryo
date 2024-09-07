@@ -150,7 +150,7 @@ internal class AudioRegistry
             .Concat(this.fileContainers.Values.SelectMany(x => x))
             .Where(x => x.GroupId != null && x.GroupId == groupId)
             .ToArray();
-        return new(containers);
+        return new(groupId, containers);
     }
 
     public void AddAudioFile(string file)
