@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Version>1.1.0</Version>
+	<Authors>RyoTune</Authors>
+	<Description>Ryo Framework adds the ability to add or replace game audio and movies with zero file editing.</Description>
+	<RepositoryUrl>https://github.com/RyoTune/Ryo</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Reloaded.Hooks.Definitions" Version="1.15.0" />
+  </ItemGroup>
+
+</Project>
