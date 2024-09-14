@@ -27,12 +27,12 @@ internal class MovieRegistry
 
     private void AddMovieFolder(string dir, MovieConfig? preConfig)
     {
-        Log.Information($"Adding movie folder: {dir}");
+        //Log.Debug($"Adding movie folder: {dir}");
 
         var config = preConfig?.Clone() ?? new();
 
         // Apply config from a folder config file.
-        var dirConfigFile = Path.Join(dir, "config.yaml");
+        var dirConfigFile = Path.Join(dir, "config.mv.yaml");
         if (File.Exists(dirConfigFile) && ParseConfigFile(dirConfigFile) is MovieConfig dirConfig)
         {
             config.Apply(dirConfig);
@@ -66,7 +66,7 @@ internal class MovieRegistry
 
     public bool TryGetMovie(string targetMoviePath, [NotNullWhen(true)] out MovieContainer? container)
     {
-        if (this.containers.TryGetValue(targetMoviePath, out var containerList))
+        if (this.containers.TryGetValue(Path.GetFileName(targetMoviePath), out var containerList))
         {
             container = containerList.LastOrDefault(x => x.IsEnabled);
             return container != null;
@@ -86,6 +86,11 @@ internal class MovieRegistry
 
     private static MovieConfig? ParseConfigFile(string configFile)
     {
+        if (IsMovieConfig(configFile) == false)
+        {
+            return null;
+        }
+
         try
         {
             Log.Debug($"Loading movie config: {configFile}");
@@ -144,4 +149,6 @@ internal class MovieRegistry
         containers[moviePath].Add(container);
         return container;
     }
+
+    private static bool IsMovieConfig(string yamlFile) => yamlFile.EndsWith(".mv.yaml", StringComparison.OrdinalIgnoreCase);
 }

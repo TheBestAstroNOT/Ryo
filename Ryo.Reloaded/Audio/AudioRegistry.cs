@@ -159,7 +159,7 @@ internal class AudioRegistry
 
     public void AddAudioFolder(string dir, AudioConfig? preConfig = null)
     {
-        Log.Information($"Adding audio folder: {dir}");
+        //Log.Debug($"Adding audio folder: {dir}");
 
         // Audio config for folder items.
         var config = preConfig?.Clone() ?? new();
