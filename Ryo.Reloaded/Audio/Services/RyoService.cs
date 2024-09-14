@@ -31,7 +31,7 @@ internal unsafe class RyoService
         }
     }
 
-    public void SetAudio(Player player, BaseContainer container, int[]? categories)
+    public void SetAudio(Player player, AudioContainer container, int[]? categories)
     {
         var currentPlayer = player;
 

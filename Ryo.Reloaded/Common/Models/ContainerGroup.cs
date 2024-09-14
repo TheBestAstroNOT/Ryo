@@ -1,9 +1,9 @@
 ﻿using Ryo.Interfaces.Classes;
-using Ryo.Reloaded.Audio.Models.Containers;
+using Ryo.Reloaded.Common.Models;
 
 namespace Ryo.Reloaded.Audio.Models;
 
-internal class ContainerGroup(string id, BaseContainer[] containers) : IContainerGroup
+internal class ContainerGroup(string id, IContainer[] containers) : IContainerGroup
 {
     public string Id { get; } = id;
 

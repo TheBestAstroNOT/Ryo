@@ -13,6 +13,13 @@ public interface IRyoApi
     void AddAudioPath(string path, AudioConfig? config);
 
     /// <summary>
+    /// Add a path to add movies from.
+    /// </summary>
+    /// <param name="path">Movies path, file or folder.</param>
+    /// <param name="config">Movie config to apply, if any.</param>
+    void AddMoviePath(string path, MovieConfig? config);
+
+    /// <summary>
     /// Add an audio preprocessor.
     /// </summary>
     /// <param name="name">Process name.</param>

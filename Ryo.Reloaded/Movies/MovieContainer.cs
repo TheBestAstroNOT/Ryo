@@ -1,48 +1,47 @@
-﻿namespace Ryo.Reloaded.Movies;
+﻿using Ryo.Interfaces.Classes;
+using Ryo.Reloaded.Common.Models;
 
-internal class MovieContainer
+namespace Ryo.Reloaded.Movies;
+
+internal class MovieContainer : IContainer
 {
-    private readonly List<string> files = new();
+    private readonly List<string> moviePaths = [];
 
-    public MovieContainer(string originalFile)
+    public MovieContainer(MovieConfig? config)
     {
-        this.OriginalFile = originalFile;
-        this.FileName = Path.GetFileName(originalFile);
+        this.GroupId = config?.GroupId;
+        this.IsEnabled = config?.IsEnabled ?? true;
+        this.SharedContainerId = config?.SharedContainerId;
+        this.TargetMoviePath = config?.TargetMoviePath ?? throw new Exception("Missing target movie path.");
     }
 
-    public string OriginalFile { get; }
+    public bool IsEnabled { get; set; }
 
-    public string FileName { get; set; }
+    public string? GroupId { get; }
 
-    public void AddFile(string filePath)
+    public string? SharedContainerId { get; }
+
+    public string TargetMoviePath { get; }
+
+    public void AddMovie(string newMoviePath)
     {
-        this.files.Add(filePath);
-        Log.Information($"File added to movie: {this.FileName}\nFile: {filePath}");
+        this.moviePaths.Add(newMoviePath);
+        Log.Information($"Added new movie to: {this.TargetMoviePath}\nMovie: {newMoviePath}");
     }
 
-    public string GetMovieFile()
+    public string GetMoviePath()
     {
-        if (this.files.Count > 1)
+        if (this.moviePaths.Count > 1)
         {
-            var randomIndex = Random.Shared.Next(0, this.files.Count);
-            Log.Debug($"Random movie index: {randomIndex} || Total Files: {this.files.Count}");
-            return this.files[randomIndex];
+            var randomIndex = Random.Shared.Next(0, this.moviePaths.Count);
+            Log.Debug($"Random movie index: {randomIndex} || Total Files: {this.moviePaths.Count}");
+            return this.moviePaths[randomIndex];
         }
-        else if (this.files.Count == 1)
+        else if (this.moviePaths.Count == 1)
         {
-            return this.files[0];
+            return this.moviePaths[0];
         }
 
-        throw new Exception($"Movie had no files.\nOriginal File: {this.OriginalFile}");
-    }
-
-    /// <summary>
-    /// Whether the movie container matches the given path.
-    /// </summary>
-    /// <param name="path">Path to test.</param>
-    public bool MatchesPath(string path)
-    {
-        var fileName = Path.GetFileName(path);
-        return this.FileName.Equals(fileName, StringComparison.OrdinalIgnoreCase);
+        throw new Exception($"Movie had no files.\nOriginal File: {this.TargetMoviePath}");
     }
 }

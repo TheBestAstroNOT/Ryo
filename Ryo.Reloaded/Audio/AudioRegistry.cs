@@ -4,6 +4,7 @@ using Ryo.Definitions.Enums;
 using Ryo.Reloaded.Common;
 using Ryo.Interfaces.Classes;
 using Ryo.Reloaded.Audio.Models.Containers;
+using Ryo.Reloaded.Common.Models;
 
 namespace Ryo.Reloaded.Audio;
 
@@ -13,8 +14,8 @@ internal class AudioRegistry
 
     private readonly AudioConfig defaultConfig;
     private readonly AudioPreprocessor preprocessor;
-    private readonly Dictionary<CueKey, List<BaseContainer>> cueContainers = new(CueComparer.Instance);
-    private readonly Dictionary<string, List<BaseContainer>> fileContainers = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<CueKey, List<AudioContainer>> cueContainers = new(CueComparer.Instance);
+    private readonly Dictionary<string, List<AudioContainer>> fileContainers = new(StringComparer.OrdinalIgnoreCase);
 
     public AudioRegistry(string game, AudioPreprocessor preprocessor)
     {
@@ -69,7 +70,7 @@ internal class AudioRegistry
             config.AudioFilePath = parentDir[(fileDirIndex + RYO_FILE_DIR_NAME.Length + 1)..].Replace('\\', '/');
         }
 
-        BaseContainer? container;
+        AudioContainer? container;
         var audio = new RyoAudio(file, config);
 
         // Create audio file container.
@@ -99,10 +100,10 @@ internal class AudioRegistry
         container.AddAudio(audio);
     }
 
-    private BaseContainer CreateOrGetContainer(ContainerType type, AudioConfig config)
+    private AudioContainer CreateOrGetContainer(ContainerType type, AudioConfig config)
     {
         // Create container.
-        BaseContainer? container;
+        AudioContainer? container;
 
         switch (type)
         {
@@ -119,7 +120,7 @@ internal class AudioRegistry
         return container;
     }
 
-    private static BaseContainer RegisterOrGetSharedContainer<TKey>(Dictionary<TKey, List<BaseContainer>> containers, TKey key, BaseContainer container)
+    private static AudioContainer RegisterOrGetSharedContainer<TKey>(Dictionary<TKey, List<AudioContainer>> containers, TKey key, AudioContainer container)
         where TKey : notnull
     {
         // Add new container list with single item.
@@ -144,13 +145,13 @@ internal class AudioRegistry
         return container;
     }
 
-    public ContainerGroup GetContainerGroup(string groupId)
+    public IContainer[] GetContainersByGroup(string groupId)
     {
         var containers = this.cueContainers.Values.SelectMany(x => x)
             .Concat(this.fileContainers.Values.SelectMany(x => x))
             .Where(x => x.GroupId != null && x.GroupId == groupId)
             .ToArray();
-        return new(groupId, containers);
+        return containers;
     }
 
     public void AddAudioFile(string file)
@@ -158,7 +159,7 @@ internal class AudioRegistry
 
     public void AddAudioFolder(string dir, AudioConfig? preConfig = null)
     {
-        Log.Information($"Adding folder: {dir}");
+        Log.Information($"Adding audio folder: {dir}");
 
         // Audio config for folder items.
         var config = preConfig?.Clone() ?? new();
@@ -210,7 +211,7 @@ internal class AudioRegistry
         }
     }
 
-    public bool TryGetCueContainer(string cueName, string acbName, [NotNullWhen(true)] out BaseContainer? container)
+    public bool TryGetCueContainer(string cueName, string acbName, [NotNullWhen(true)] out AudioContainer? container)
     {
         if (this.cueContainers.TryGetValue(new(cueName, acbName), out var containerList))
         {
@@ -222,7 +223,7 @@ internal class AudioRegistry
         return false;
     }
 
-    public bool TryGetFileContainer(string filePath, [NotNullWhen(true)] out BaseContainer? container)
+    public bool TryGetFileContainer(string filePath, [NotNullWhen(true)] out AudioContainer? container)
     {
         if (this.fileContainers.TryGetValue(filePath, out var containerList))
         {
@@ -247,13 +248,13 @@ internal class AudioRegistry
     {
         try
         {
-            Log.Debug($"Loading user config: {configFile}");
+            Log.Debug($"Loading audio config: {configFile}");
             var config = YamlSerializer.DeserializeFile<AudioConfig>(configFile);
             return config;
         }
         catch (Exception ex)
         {
-            Log.Error(ex, $"Failed to parse user config.\nFile: {configFile}");
+            Log.Error(ex, $"Failed to parse audio config.\nFile: {configFile}");
             return null;
         }
     }

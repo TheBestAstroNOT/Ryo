@@ -2,6 +2,7 @@
 using Ryo.Interfaces.Classes;
 using Ryo.Interfaces.Structs;
 using Ryo.Reloaded.Audio;
+using Ryo.Reloaded.Audio.Models;
 using Ryo.Reloaded.CRI.CriAtomEx;
 using Ryo.Reloaded.Movies;
 
@@ -52,5 +53,12 @@ internal class RyoApi : IRyoApi
         => this.audio.TryGetFileContainer(filePath, out _);
 
     public IContainerGroup GetContainerGroup(string groupId)
-        => this.audio.GetContainerGroup(groupId);
+    {
+        var containers = this.audio.GetContainersByGroup(groupId)
+            .Concat(this.movies.GetContainersByGroup(groupId))
+            .ToArray();
+        return new ContainerGroup(groupId, containers);
+    }
+
+    public void AddMoviePath(string path, MovieConfig? config) => this.movies.AddMoviePath(path, config);
 }

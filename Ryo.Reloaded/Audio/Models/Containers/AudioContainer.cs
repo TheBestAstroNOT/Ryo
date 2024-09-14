@@ -1,37 +1,38 @@
 ﻿using Ryo.Interfaces.Classes;
 using Ryo.Interfaces.Enums;
+using Ryo.Reloaded.Common.Models;
 
 namespace Ryo.Reloaded.Audio.Models.Containers;
 
-internal abstract class BaseContainer
+internal abstract class AudioContainer : IContainer
 {
     private readonly PlaybackMode playMode;
     private readonly List<RyoAudio> audios = [];
 
     private int prevIndex = -1;
 
-    public BaseContainer(AudioConfig? config)
+    public AudioContainer(AudioConfig? config)
     {
         this.playMode = config?.PlaybackMode ?? PlaybackMode.Random;
 
-        GroupId = config?.GroupId;
-        IsEnabled = config?.IsEnabled ?? true;
-        PlayerId = config?.PlayerId ?? -1;
-        CategoryIds = config?.CategoryIds;
-        SharedContainerId = config?.SharedContainerId;
+        this.GroupId = config?.GroupId;
+        this.IsEnabled = config?.IsEnabled ?? true;
+        this.PlayerId = config?.PlayerId ?? -1;
+        this.CategoryIds = config?.CategoryIds;
+        this.SharedContainerId = config?.SharedContainerId;
     }
+
+    public bool IsEnabled { get; set; }
 
     public string? GroupId { get; }
 
-    public bool IsEnabled { get; set; }
+    public string? SharedContainerId { get; }
 
     public abstract string Name { get; }
 
     public int PlayerId { get; }
 
     public int[]? CategoryIds { get; }
-
-    public string? SharedContainerId { get; }
 
     public void AddAudio(RyoAudio audio)
     {

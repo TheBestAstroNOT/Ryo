@@ -2,7 +2,7 @@
 
 namespace Ryo.Reloaded.Audio.Models.Containers;
 
-internal class CueContainer : BaseContainer
+internal class CueContainer : AudioContainer
 {
     public CueContainer(string cueName, string acbName, AudioConfig? config = null)
         : base(config)
