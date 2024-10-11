@@ -8,6 +8,10 @@ internal static class CriManaGames
         {
             criManaPlayer_SetFile = "4C 89 44 24 ?? 48 89 54 24 ?? 48 89 4C 24 ?? 48 83 EC 38 48 83 7C 24 ?? 00 75 ?? 41 B8 FE FF FF FF 48 8D 15 ?? ?? ?? ?? 31 C9",
         },
+        new("metaphor")
+        {
+            criManaPlayer_SetFile = "48 83 EC 08 48 89 34 24 48 31 F6 48 8D 64 24 ?? 4C 89 04 24",
+        },
         new("SMT5V-Win64-Shipping")
         {
             criManaPlayer_SetFile = "4C 89 44 24 ?? 48 89 54 24 ?? 48 89 4C 24 ?? 48 83 EC 38 48 83 7C 24 ?? 00 75 ?? 41 B8 FE FF FF FF 48 8D 15 ?? ?? ?? ?? 31 C9 E8 ?? ?? ?? ?? EB",
