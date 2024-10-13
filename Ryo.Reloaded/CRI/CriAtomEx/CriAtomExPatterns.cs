@@ -257,6 +257,27 @@ internal static class CriAtomExGames
             criAtomExAcb_GetCueInfoByName = "48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 20 49 8B F0 48 8B FA 48 8B D9 48 85 D2 75 ??",
             criAtomExAcb_GetCueInfoById = "48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 20 49 8B F8 8B F2 48 8B D9 4D 85 C0",
         },
+        new("SparkingZERO-Win64-Shipping")
+        {
+            criAtomExPlayer_Create = "48 89 5C 24 ?? 48 89 74 24 ?? 48 89 7C 24 ?? 55 41 54 41 55 41 56 41 57 48 8B EC 48 83 EC 40 45 33 E4",
+            criAtomExPlayer_Start = "48 89 5C 24 ?? 57 48 83 EC 20 48 8B F9 48 85 C9 75 ?? 44 8D 41 ?? 48 8D 15 ?? ?? ?? ?? E8 ?? ?? ?? ?? 83 C8 FF",
+            criAtomExPlayer_SetData = "48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 74 24 ?? 57 48 83 EC 20 41 8B F0 48 8B EA",
+            criAtomExPlayer_SetFormat = "48 89 5C 24 ?? 57 48 83 EC 20 48 8B F9 48 85 C9 75 ?? 48 8D 15 ?? ?? ?? ?? 41 B8 FE FF FF FF",
+            criAtomExPlayer_SetNumChannels = "48 89 5C 24 ?? 57 48 83 EC 20 8B FA 48 8B D9 48 85 C9 74 ?? 8D 42 ??",
+            criAtomExPlayer_SetSamplingRate = "48 89 5C 24 ?? 57 48 83 EC 20 8B FA 48 8B D9 48 85 C9 74 ?? 85 D2",
+            criAtomExPlayer_SetCueName = "48 89 5C 24 ?? 48 89 6C 24 ?? 56 57 41 56 48 83 EC 20 45 33 F6 49 8B F0 48 8B FA",
+            criAtomExPlayer_SetCategoryById = "48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 74 24 ?? 57 48 83 EC 50 48 8B F9 8B F2",
+
+            criAtomExAcb_LoadAcbData = "48 89 5C 24 ?? 48 89 6C 24 ?? 48 89 74 24 ?? 57 41 54 41 55 41 56 41 57 48 83 EC 50 33 F6",
+
+            criAtomExCategory_GetVolume = "40 53 48 83 EC 20 48 0F BF D9 33 C9 E8 ?? ?? ?? ?? 33 C9 85 C0 75 ?? 48 8D 15 ?? ?? ?? ?? E8 ?? ?? ?? ?? 33 C0 48 83 C4 20 5B C3 66 85 DB 79 ??",
+            criAtomExCategory_GetVolumeById = "40 53 48 83 EC 20 8B D9 33 C9 E8 ?? ?? ?? ?? 85 C0",
+            criAtomExCategory_SetVolume = "40 53 48 83 EC 30 0F 29 74 24 ?? 0F 28 F1 48 8B D9 48 85 C9 75 ?? 48 8D 15 ?? ?? ?? ?? EB ?? 0F 57 C0 F3 0F 5A C6 E8 ?? ?? ?? ?? 33 C9",
+
+            criAtomExAcb_GetCueInfoByName = "48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 20 49 8B F0 48 8B FA 48 8B D9 48 85 D2 75 ??",
+            criAtomExAcb_GetCueInfoById = "48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 20 49 8B F8 8B F2 48 8B D9 4D 85 C0",
+            criAtomConfig_GetCategoryIndexById = "48 89 5C 24 ?? 57 48 83 EC 20 8B F9 48 8B 0D ?? ?? ?? ??",
+        },
     };
 
     public static CriAtomExPatterns GetGamePatterns(string game)
