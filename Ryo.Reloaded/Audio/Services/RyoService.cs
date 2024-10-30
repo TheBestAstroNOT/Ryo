@@ -85,6 +85,7 @@ internal unsafe class RyoService
     {
         if (audio.Volume < 0)
         {
+            Log.Verbose("No custom volume set for file.");
             return;
         }
 
@@ -101,14 +102,16 @@ internal unsafe class RyoService
         {
             // Use first category for setting custom volume.
             int volumeCategory = categories[0];
+
+            // Save original category volume.
             if (!this.modifiedCategories.ContainsKey(volumeCategory))
             {
                 var currentVolume = this.criAtomEx.Category_GetVolumeById((uint)volumeCategory);
                 this.modifiedCategories[volumeCategory] = currentVolume;
-                this.criAtomEx.Category_SetVolumeById((uint)volumeCategory, audio.Volume);
-                Log.Debug($"Modified volume. Category ID: {volumeCategory} || Volume: {audio.Volume}");
-                this.criAtomEx.Category_SetVolumeById((uint)volumeCategory, audio.Volume);
             }
+
+            this.criAtomEx.Category_SetVolumeById((uint)volumeCategory, audio.Volume);
+            Log.Debug($"Modified volume. Category ID: {volumeCategory} || Volume: {audio.Volume}");
         }
     }
 
