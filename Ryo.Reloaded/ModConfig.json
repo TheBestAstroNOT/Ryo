@@ -2,7 +2,7 @@
   "ModId": "Ryo.Reloaded",
   "ModName": "Ryo Framework",
   "ModAuthor": "RyoTune",
-  "ModVersion": "2.5.7",
+  "ModVersion": "2.5.8",
   "ModDescription": "Ryo Framework adds the ability to add or replace game audio and movies with zero file editing.",
   "ModDll": "Ryo.Reloaded.dll",
   "ModIcon": "Preview.png",
@@ -35,6 +35,15 @@
             "AssetFileName": "reloaded.sharedlib.hooks.zip"
           },
           "ReleaseMetadataName": "Sewer56.Update.ReleaseMetadata.json"
+        },
+        "SharedScans.Reloaded": {
+          "Config": {
+            "UserName": "RyoTune",
+            "RepositoryName": "SharedScans",
+            "UseReleaseTag": false,
+            "AssetFileName": "Mod.zip"
+          },
+          "ReleaseMetadataName": "SharedScans.Reloaded.ReleaseMetadata.json"
         }
       }
     },
@@ -52,6 +61,12 @@
           "ReleaseMetadataName": "SharedScans.Reloaded.ReleaseMetadata.json"
         }
       }
+    },
+    "GitHubRelease": {
+      "UserName": "RyoTune",
+      "RepositoryName": "Ryo",
+      "UseReleaseTag": false,
+      "AssetFileName": "Mod.zip"
     }
   },
   "IsUniversalMod": false,
