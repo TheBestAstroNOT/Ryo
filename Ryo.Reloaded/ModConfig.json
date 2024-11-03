@@ -47,21 +47,6 @@
         }
       }
     },
-    "GameBanana": {
-      "ItemType": "Mod",
-      "ItemId": 495507
-    },
-    "GameBananaDependencies": {
-      "IdToConfigMap": {
-        "SharedScans.Reloaded": {
-          "Config": {
-            "ItemType": "Mod",
-            "ItemId": 495507
-          },
-          "ReleaseMetadataName": "SharedScans.Reloaded.ReleaseMetadata.json"
-        }
-      }
-    },
     "GitHubRelease": {
       "UserName": "RyoTune",
       "RepositoryName": "Ryo",
