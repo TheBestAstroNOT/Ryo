@@ -127,6 +127,8 @@ internal static class GameDefaults
                     maxPathStrings = 2,
                     voiceAllocationMethod = 1,
                     maxPath = 256,
+                    enableAudioSyncedTimer = true,
+                    updatesTime = true,
                 });
                 break;
             default: break;
