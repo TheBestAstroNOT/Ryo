@@ -124,6 +124,7 @@ internal static class GameDefaults
             case "p4g":
                 criAtomEx.SetPlayerConfigById(0, new()
                 {
+                    maxPathStrings = 2,
                     voiceAllocationMethod = 1,
                     maxPath = 256,
                 });
