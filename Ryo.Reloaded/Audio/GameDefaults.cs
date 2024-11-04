@@ -22,11 +22,11 @@ internal static class GameDefaults
                 {
                     if (bgmId >= 1000 && bgmId < 2000)
                     {
-                        return $"Sound_{bgmId}";
+                        return $"Sound_{bgmId - 1000}";
                     }
                     else if (bgmId >= 2000)
                     {
-                        return $"EA_Sound_{bgmId}";
+                        return $"EA_Sound_{bgmId - 2000}";
                     }
                 }
 
