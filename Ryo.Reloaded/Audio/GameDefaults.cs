@@ -15,7 +15,7 @@ internal static class GameDefaults
 
         ["p3r"] = (AcbCueInfo info) =>
         {
-            if (info.Cue == "bgm")
+            if (info.Acb == "bgm")
             {
                 var cueParts = info.Cue.Split('_');
                 if (cueParts.Length == 2 && int.TryParse(cueParts[1], out var bgmId))
