@@ -21,7 +21,6 @@ internal unsafe class AudioService
     private readonly HookContainer<criAtomExPlayer_SetCueId> setCueId;
     private readonly HookContainer<criAtomExPlayer_SetFile> setFile;
     private readonly HookContainer<criAtomExPlayer_SetWaveId> setWaveId;
-    private readonly HookContainer<criAtomExPlayer_SetData> setData;
 
     private bool devMode;
 

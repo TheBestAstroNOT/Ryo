@@ -22,11 +22,19 @@ internal static class GameDefaults
                 {
                     if (bgmId >= 1000 && bgmId < 2000)
                     {
-                        return $"Sound_{bgmId - 1000}";
+                        var adjustedId = bgmId - 1000;
+                        var victoryIds = new List<int> { 5, 11, 27, 37, 44 };
+                        if (victoryIds.Contains(adjustedId))
+                        {
+                            adjustedId = victoryIds.IndexOf(adjustedId) + 1;
+                            return $"Sound_Result_{adjustedId:00}";
+                        }
+
+                        return $"Sound_{adjustedId:00}";
                     }
                     else if (bgmId >= 2000)
                     {
-                        return $"EA_Sound_{bgmId - 2000}";
+                        return $"EA_Sound_{bgmId - 2000:00}";
                     }
                 }
 

@@ -59,7 +59,11 @@ internal unsafe class VirtualCueService
         if (this.linkCueCb != null)
         {
             var linkedCueName = this.linkCueCb(new(acb.Name, name));
-            linkedCueStr = StringsCache.GetStringPtr(linkedCueName);
+            if (name != linkedCueName)
+            {
+                Log.Debug($"LinkCueCb: {name} -> {linkedCueName}");
+                linkedCueStr = StringsCache.GetStringPtr(linkedCueName);
+            }
         }
 
         // Cue by name exists in original ACB.
