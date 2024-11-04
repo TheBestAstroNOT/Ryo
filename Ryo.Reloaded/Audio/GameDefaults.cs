@@ -13,7 +13,28 @@ internal static class GameDefaults
             return info.Cue;
         },
 
-        ["p3r"] = (AcbCueInfo info) => info.Cue.Replace("link_", string.Empty),
+        ["p3r"] = (AcbCueInfo info) =>
+        {
+            if (info.Cue == "bgm")
+            {
+                var cueParts = info.Cue.Split('_');
+                if (cueParts.Length == 2 && int.TryParse(cueParts[1], out var bgmId))
+                {
+                    if (bgmId >= 1000 && bgmId < 2000)
+                    {
+                        return $"Sound_{bgmId}";
+                    }
+                    else if (bgmId >= 2000)
+                    {
+                        return $"EA_Sound_{bgmId}";
+                    }
+                }
+
+                return info.Cue.Replace("link_", string.Empty);
+            }
+
+            return info.Cue;
+        },
     };
 
     public static Func<AcbCueInfo, string>? GetLinkCueCb(string game)
