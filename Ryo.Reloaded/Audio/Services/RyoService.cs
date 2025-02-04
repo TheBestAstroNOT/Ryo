@@ -56,7 +56,6 @@ internal unsafe class RyoService
             this.criAtomEx.Player_SetData(currentPlayer.Handle, (byte*)audioData.Address, audioData.Size);
         }
 
-        this.ResetPlayerVolume(player);
         this.SetAudioVolume(currentPlayer, newAudio, categories);
 
         this.criAtomEx.Player_SetFormat(currentPlayer.Handle, newAudio.Format);
@@ -115,16 +114,7 @@ internal unsafe class RyoService
         }
     }
 
-    private void ResetPlayerVolume(Player player)
-    {
-        if (this.modifiedPlayers.Contains(player.Handle))
-        {
-            this.criAtomEx.Player_ResetParameters(player.Handle);
-            Log.Debug($"Reset volume for Player ID: {player.Id}");
-        }
-    }
-
-    public void ResetCategoryVolumes(IEnumerable<int> categoryIds)
+    public void ResetCustomVolumes(Player player, IEnumerable<int> categoryIds)
     {
         foreach (var id in categoryIds)
         {
@@ -134,6 +124,12 @@ internal unsafe class RyoService
                 this.modifiedCategories.Remove(id);
                 Log.Debug($"Reset volume for Category ID: {id}");
             }
+        }
+
+        if (this.modifiedPlayers.Contains(player.Handle))
+        {
+            this.criAtomEx.Player_ResetParameters(player.Handle);
+            Log.Debug($"Reset volume for Player ID: {player.Id}");
         }
     }
 

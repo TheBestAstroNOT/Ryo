@@ -78,7 +78,7 @@ internal unsafe class AudioService
         }
         else
         {
-            this.ryo.ResetCategoryVolumes(cue.Categories ?? Array.Empty<int>());
+            this.ryo.ResetCustomVolumes(player, cue.Categories ?? []);
             return false;
         }
     }
