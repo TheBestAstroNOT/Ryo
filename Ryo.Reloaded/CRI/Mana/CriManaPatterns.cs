@@ -10,7 +10,7 @@ internal static class CriManaGames
         },
         new("metaphor")
         {
-            criManaPlayer_SetFile = "4C 89 44 24 ?? 48 89 54 24 ?? 48 89 4C 24 ?? 48 83 EC 38 48 83 7C 24 ?? 00 75 ?? 41 B8 FE FF FF FF 48 8D 15 60 FE E8 00",
+            criManaPlayer_SetFile = "4C 89 44 24 ?? 48 89 54 24 ?? 48 89 4C 24 ?? 48 83 EC 38 48 83 7C 24 ?? 00 75 ?? 41 B8 FE FF FF FF 48 8D 15 ?? ?? ?? ?? 33 C9 E8 ?? ?? ?? ?? EB ?? 48 8B 44 24 ?? 48 8B 40 ?? 48 89 44 24 ?? 48 8B 44 24",
         },
         new("SMT5V-Win64-Shipping")
         {
