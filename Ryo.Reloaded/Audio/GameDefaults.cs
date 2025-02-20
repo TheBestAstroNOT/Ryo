@@ -91,6 +91,11 @@ internal static class GameDefaults
             CategoryIds = new int[] { 11 },
             Volume = 0.35f,
         },
+        ["likeadragonpirates"] = new()
+        {
+            CategoryIds = new int[] { 11 },
+            Volume = 1.0f,
+        },
         ["RainCodePlus-Win64-Shipping"] = new()
         {
             Volume = 0.35f,
