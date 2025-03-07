@@ -74,26 +74,27 @@ internal static class GameDefaults
         {
             AcbName = "bgm",
             //CategoryIds = new int[] { 0, 4, 9, 40, 24, 11, 43, 51 },
-            Volume = 0.35f,
+            Volume = 0.70f,
+            VolumeCategoryId = 4,
         },
         ["likeadragon8"] = new()
         {
-            CategoryIds = new int[] { 11 },
+            CategoryIds = [11],
             Volume = 0.35f,
         },
         ["likeadragongaiden"] = new()
         {
-            CategoryIds = new int[] { 11 },
+            CategoryIds = [11],
             Volume = 0.35f,
         },
         ["LostJudgment"] = new()
         {
-            CategoryIds = new int[] { 11 },
+            CategoryIds = [11],
             Volume = 0.35f,
         },
         ["likeadragonpirates"] = new()
         {
-            CategoryIds = new int[] { 11 },
+            CategoryIds = [11],
             Volume = 1.0f,
         },
         ["RainCodePlus-Win64-Shipping"] = new()

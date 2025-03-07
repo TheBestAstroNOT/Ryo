@@ -15,6 +15,9 @@ public class AudioConfig
     /// </summary>
     public string? GroupId { get; set; }
 
+    /// <summary>
+    /// Whether this audio is enabled.
+    /// </summary>
     public bool? IsEnabled { get; set; }
 
     /// <summary>
@@ -24,34 +27,77 @@ public class AudioConfig
     /// </summary>
     public string? SharedContainerId { get; set; }
 
+    /// <summary>
+    /// Cue name this audio is assigned to. Can be a new or existing cue.
+    /// </summary>
     public string? CueName { get; set; }
 
+    /// <summary>
+    /// Audio target ACB name.
+    /// </summary>
     public string? AcbName { get; set; }
 
+    /// <summary>
+    /// Audio target data name.
+    /// </summary>
     public string? AudioDataName { get; set; }
 
+    /// <summary>
+    /// File path this audio is assigned to. Can be a new or existing file.
+    /// </summary>
     public string? AudioFilePath { get; set; }
 
+    /// <summary>
+    /// Sample rate of audio.
+    /// Seems to be ignored if audio format includes this data, such as HCA and ADX.
+    /// </summary>
     public int? SampleRate { get; set; }
 
+    /// <summary/>
     public CriAtomFormat? Format { get; set; }
 
+    /// <summary/>
     public int? NumChannels { get; set; }
 
+    /// <summary>
+    /// Specific player to play this audio with.
+    /// </summary>
     public int? PlayerId { get; set; }
 
+    /// <summary>
+    /// Sound categories to apply to player before playing.
+    /// </summary>
     public int[]? CategoryIds { get; set; }
 
+    /// <summary>
+    /// Custom volume to set before playing audio.
+    /// The volume is set either on a sound category or the player itself.
+    /// </summary>
     public float? Volume { get; set; }
 
+    /// <summary/>
     public string? Key { get; set; }
 
+    /// <summary/>
     public string[]? Tags { get; set; }
 
+    /// <summary>
+    /// Custom playback modes when audio contains multiple files.
+    /// </summary>
     public PlaybackMode? PlaybackMode { get; set; }
 
+    /// <summary>
+    /// Set custom volume on the player instead of category.
+    /// </summary>
     public bool? UsePlayerVolume { get; set; }
 
+    /// <summary>
+    /// Category ID to set custom volume on.
+    /// If not set, or category is not found in <c>CategoryIds</c>, the first category will be used.
+    /// </summary>
+    public int? VolumeCategoryId { get; set; }
+
+    /// <inheritdoc/>
     public AudioConfig Clone() => (AudioConfig)this.MemberwiseClone();
 
     /// <summary>
@@ -76,5 +122,6 @@ public class AudioConfig
         this.AudioFilePath = newConfig.AudioFilePath ?? this.AudioFilePath;
         this.PlaybackMode = newConfig.PlaybackMode ?? this.PlaybackMode;
         this.UsePlayerVolume = newConfig.UsePlayerVolume ?? this.UsePlayerVolume;
+        this.VolumeCategoryId = newConfig.VolumeCategoryId ?? this.VolumeCategoryId;
     }
 }

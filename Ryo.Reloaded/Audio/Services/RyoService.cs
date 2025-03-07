@@ -100,7 +100,7 @@ internal unsafe class RyoService
         else if (categories?.Length > 0)
         {
             // Use first category for setting custom volume.
-            int volumeCategory = categories[0];
+            int volumeCategory = audio.VolumeCategoryId != -1 ? audio.VolumeCategoryId : categories[0];
 
             // Save original category volume.
             if (!this.modifiedCategories.ContainsKey(volumeCategory))
